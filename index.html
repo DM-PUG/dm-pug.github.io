@@ -1,0 +1,2369 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>HANASAKI HIGH SCHOOL // STUDENT FILE</title>
+
+<!--
+  html2canvas ใช้สำหรับสร้างรูป PNG จาก Student Card
+  ต้องมีอินเทอร์เน็ตตอนกดดาวน์โหลด PNG
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=VT323&display=swap');
+
+:root{
+    --black:#070707;
+    --dark:#151515;
+    --paper:#c7c0aa;
+    --paper2:#ded8c3;
+    --red:#861515;
+    --blood:#b51d1d;
+    --gray:#666;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    background:#050505;
+}
+
+body{
+    margin:0;
+    background:
+        radial-gradient(circle,#292929 0%,#090909 75%);
+    color:#151515;
+    font-family:
+        "DotGothic16",
+        "MS Gothic",
+        monospace;
+}
+
+/* CRT scanlines */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:9999;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,.025) 0px,
+            rgba(255,255,255,.025) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+}
+
+button,
+input,
+select,
+textarea{
+    font-family:inherit;
+}
+
+.page{
+    width:min(1150px,94%);
+    margin:20px auto 60px;
+}
+
+/* ================= HEADER ================= */
+
+.header{
+    color:#ddd;
+    background:
+        linear-gradient(135deg,#111,#242424,#080808);
+    border:4px double #777;
+    padding:20px;
+    box-shadow:
+        8px 8px 0 #000,
+        inset 0 0 40px rgba(120,0,0,.15);
+}
+
+.school-jp{
+    font-size:11px;
+    letter-spacing:4px;
+    color:#999;
+}
+
+.logo{
+    font-family:"VT323",monospace;
+    font-size:clamp(48px,10vw,85px);
+    line-height:.8;
+    letter-spacing:5px;
+    color:#ddd;
+    text-shadow:
+        3px 0 #7b1010,
+        -1px 0 #555;
+    margin:12px 0;
+}
+
+.subtitle{
+    font-size:10px;
+    color:#999;
+    letter-spacing:3px;
+}
+
+.warning{
+    margin-top:15px;
+    padding:8px;
+    border:1px solid #641515;
+    background:#30090955;
+    color:#b98787;
+    font-size:10px;
+}
+
+/* ================= NAV ================= */
+
+.nav{
+    display:flex;
+    flex-wrap:wrap;
+    margin-top:7px;
+    border:2px solid #222;
+}
+
+.nav div{
+    flex:1;
+    min-width:100px;
+    padding:7px;
+    text-align:center;
+    font-size:10px;
+    color:#111;
+    background:linear-gradient(#ddd,#888);
+    border-right:1px solid #555;
+}
+
+/* ================= LAYOUT ================= */
+
+.layout{
+    display:grid;
+    grid-template-columns:1.55fr .8fr;
+    gap:17px;
+    margin-top:18px;
+}
+
+.panel{
+    background:
+        linear-gradient(rgba(255,255,255,.16),rgba(0,0,0,.03)),
+        var(--paper);
+    border:3px double #222;
+    padding:14px;
+    box-shadow:6px 6px 0 #0009;
+}
+
+.title{
+    margin:-1px -1px 15px;
+    padding:7px 9px;
+    background:#171717;
+    color:#ddd;
+    border-bottom:3px solid var(--red);
+    font-size:11px;
+    letter-spacing:2px;
+}
+
+.title::before{
+    content:"■ ";
+    color:#b21c1c;
+}
+
+/* ================= FORM ================= */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:11px;
+}
+
+.full{
+    grid-column:1/-1;
+}
+
+label{
+    display:block;
+    font-size:10px;
+    font-weight:bold;
+    margin-bottom:4px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    border:2px inset #888;
+    border-radius:0;
+    padding:9px;
+    background:var(--paper2);
+    color:#111;
+    font-size:12px;
+    outline:none;
+}
+
+textarea{
+    min-height:85px;
+    resize:vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#811313;
+}
+
+/* ================= PHOTO ================= */
+
+.photo-area{
+    display:grid;
+    grid-template-columns:145px 1fr;
+    gap:14px;
+    align-items:center;
+}
+
+.photo-preview{
+    width:145px;
+    height:180px;
+    border:4px double #222;
+    background:
+        linear-gradient(135deg,#222,#666);
+    color:#aaa;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-size:10px;
+    overflow:hidden;
+}
+
+.photo-preview img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:none;
+}
+
+/* ================= CLUB ================= */
+
+.club-box{
+    border:2px dashed #555;
+    padding:11px;
+    background:#ffffff22;
+}
+
+.club-info{
+    margin-top:8px;
+    padding:8px;
+    min-height:43px;
+    background:#0000000d;
+    font-size:9px;
+}
+
+/* ================= STATS ================= */
+
+.stats{
+    display:grid;
+    gap:10px;
+}
+
+.stat{
+    display:grid;
+    grid-template-columns:80px 1fr 30px;
+    align-items:center;
+    gap:6px;
+}
+
+.stat-name{
+    font-size:9px;
+    font-weight:bold;
+}
+
+.bar{
+    height:14px;
+    border:2px inset #777;
+    background:#555;
+}
+
+.fill{
+    height:100%;
+    width:0;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #761313 0,
+            #761313 7px,
+            #aa2525 7px,
+            #aa2525 9px
+        );
+    transition:.3s;
+}
+
+.value{
+    text-align:center;
+    font-family:"VT323",monospace;
+    font-size:21px;
+}
+
+/* ================= BUTTONS ================= */
+
+.actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:16px;
+}
+
+button{
+    border:3px outset #aaa;
+    background:linear-gradient(#e5e5e5,#777);
+    color:#111;
+    padding:10px 13px;
+    cursor:pointer;
+    font-size:10px;
+    font-weight:bold;
+}
+
+button:active{
+    border-style:inset;
+}
+
+button:hover{
+    filter:brightness(1.1);
+}
+
+.primary{
+    color:#eee;
+    background:linear-gradient(#982727,#350808);
+}
+
+.share{
+    background:linear-gradient(#52716d,#283b39);
+    color:#fff;
+}
+
+/* ================= CARD ================= */
+
+#cardSection{
+    display:none;
+    margin-top:20px;
+}
+
+.card{
+    max-width:850px;
+    margin:auto;
+    padding:11px;
+    background:#cec6ae;
+    border:6px double #151515;
+    box-shadow:10px 10px 0 #000;
+}
+
+.card-inner{
+    border:2px solid #333;
+    padding:12px;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #ffffff08 0,
+            #ffffff08 1px,
+            transparent 1px,
+            transparent 7px
+        );
+}
+
+.card-head{
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:center;
+    border-bottom:3px solid #222;
+    padding-bottom:8px;
+}
+
+.card-school{
+    font-family:"VT323",monospace;
+    font-size:clamp(27px,6vw,40px);
+    letter-spacing:2px;
+}
+
+.card-number{
+    color:#761111;
+    font-family:"VT323",monospace;
+    font-size:24px;
+}
+
+.card-body{
+    display:grid;
+    grid-template-columns:180px 1fr;
+    gap:15px;
+    padding-top:15px;
+}
+
+.card-photo{
+    width:180px;
+    height:220px;
+    border:4px double #222;
+    background:#777;
+}
+
+.card-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.card-info{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+}
+
+.info{
+    border-bottom:1px dotted #555;
+    padding:4px;
+}
+
+.info-label{
+    font-size:8px;
+    color:#666;
+}
+
+.info-value{
+    font-size:11px;
+    font-weight:bold;
+    min-height:15px;
+    word-break:break-word;
+}
+
+.card-stats{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:5px;
+    border-top:2px solid #333;
+    margin-top:13px;
+    padding-top:9px;
+}
+
+.card-stat{
+    border:1px solid #555;
+    text-align:center;
+    padding:6px;
+    background:#ffffff18;
+}
+
+.card-stat small{
+    display:block;
+    font-size:8px;
+}
+
+.card-stat strong{
+    font-family:"VT323",monospace;
+    font-size:27px;
+    color:#721010;
+}
+
+.secret{
+    margin-top:10px;
+    padding:9px;
+    border:2px dashed #741616;
+    background:#8000000c;
+    font-size:9px;
+    color:#421010;
+    word-break:break-word;
+}
+
+.card-footer{
+    display:flex;
+    justify-content:space-between;
+    margin-top:13px;
+    font-size:7px;
+    color:#666;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:780px){
+
+    .page{
+        width:96%;
+        margin-top:10px;
+    }
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .full{
+        grid-column:auto;
+    }
+
+    .photo-area{
+        grid-template-columns:1fr;
+    }
+
+    .photo-preview{
+        margin:auto;
+    }
+
+    .nav div{
+        min-width:50%;
+    }
+
+    .card-body{
+        grid-template-columns:1fr;
+    }
+
+    .card-photo{
+        margin:auto;
+    }
+
+    .card-info{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .card-stats{
+        grid-template-columns:repeat(5,1fr);
+    }
+
+    .card-stat{
+        padding:4px 1px;
+    }
+
+    .card-stat strong{
+        font-size:22px;
+    }
+
+    .actions button{
+        flex:1 1 45%;
+    }
+}
+
+@media(max-width:450px){
+
+    .logo{
+        font-size:48px;
+    }
+
+    .card{
+        padding:7px;
+        border-width:4px;
+    }
+
+    .card-inner{
+        padding:8px;
+    }
+
+    .card-info{
+        grid-template-columns:1fr;
+    }
+
+    .card-stats{
+        grid-template-columns:repeat(5,1fr);
+    }
+
+    .card-stat small{
+        font-size:6px;
+    }
+
+    .card-stat strong{
+        font-size:19px;
+    }
+
+    .card-number{
+        font-size:18px;
+    }
+
+    .actions button{
+        flex:1 1 100%;
+    }
+}
+
+/* ================= PRINT ================= */
+
+@media print{
+
+    body{
+        background:#fff;
+    }
+
+    body::before,
+    .header,
+    .nav,
+    #formSection,
+    .form-panel,
+    .actions,
+    .footer,
+    .print-hide{
+        display:none!important;
+    }
+
+    .page{
+        width:100%;
+        margin:0;
+    }
+
+    #cardSection{
+        display:block!important;
+        margin:0;
+    }
+
+    .card{
+        box-shadow:none;
+        max-width:none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+<header class="header">
+
+    <div class="school-jp">
+        花咲高等学校 ・ STUDENT DATABASE
+    </div>
+
+    <div class="logo">
+        HANASAKI
+    </div>
+
+    <div class="subtitle">
+        HIGH SCHOOL / STUDENT RECORD SYSTEM / EST. 1998
+    </div>
+
+    <div class="warning">
+        ⚠ WARNING:
+        THIS DATABASE IS FOR AUTHORIZED STUDENTS ONLY.
+        UNAUTHORIZED ACCESS WILL BE RECORDED.
+        █
+    </div>
+
+</header>
+
+<nav class="nav">
+    <div>HOME</div>
+    <div>STUDENT FILE</div>
+    <div>CLUB</div>
+    <div>ARCHIVE</div>
+    <div>???</div>
+</nav>
+
+
+<!-- ======================================================
+     FORM
+====================================================== -->
+
+<div id="formSection" class="layout">
+
+<main>
+
+<section class="panel form-panel">
+
+<div class="title">
+    STUDENT REGISTRATION FORM
+</div>
+
+<div class="form-grid">
+
+<!-- PHOTO -->
+
+<div class="full">
+
+<label>
+    PHOTOGRAPH / รูปนักเรียน
+</label>
+
+<div class="photo-area">
+
+<div class="photo-preview">
+
+    <span id="photoText">
+        NO IMAGE<br>
+        STUDENT PHOTO
+    </span>
+
+    <img id="photoPreview">
+
+</div>
+
+<div>
+
+    <input
+        type="file"
+        id="photoInput"
+        accept="image/*"
+    >
+
+    <div style="font-size:8px;color:#555;margin-top:7px;">
+        สามารถเลือกภาพจาก Gallery
+        หรือถ่ายรูปใหม่จากมือถือได้
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- NAME -->
+
+<div>
+
+<label>ชื่อ - สกุล / FULL NAME</label>
+
+<input
+    id="fullName"
+    placeholder="เช่น Yamada Haruka"
+>
+
+</div>
+
+
+<div>
+
+<label>ชื่อผู้เล่น / PLAYER NAME</label>
+
+<input
+    id="playerName"
+    placeholder="ชื่อผู้เล่น"
+>
+
+</div>
+
+
+<!-- YEAR -->
+
+<div>
+
+<label>ระดับชั้น / YEAR</label>
+
+<select id="year">
+
+<option value="1">ปี 1</option>
+<option value="2">ปี 2</option>
+<option value="3">ปี 3</option>
+
+</select>
+
+</div>
+
+
+<!-- CLASS -->
+
+<div>
+
+<label>ห้อง / CLASS</label>
+
+<select id="classRoom">
+
+<script>
+for(let i=1;i<=13;i++){
+    document.write(
+        `<option value="${String(i).padStart(2,"0")}">ห้อง ${i}</option>`
+    );
+}
+</script>
+
+</select>
+
+</div>
+
+
+<!-- LIKE -->
+
+<div>
+
+<label>สิ่งที่ชอบ / LIKES</label>
+
+<input id="likes">
+
+</div>
+
+
+<!-- DISLIKE -->
+
+<div>
+
+<label>สิ่งที่เกลียด / DISLIKES</label>
+
+<input id="dislikes">
+
+</div>
+
+
+<!-- COLOR -->
+
+<div>
+
+<label>สีที่ชอบ / FAVORITE COLOR</label>
+
+<input id="favoriteColor">
+
+</div>
+
+
+<div>
+
+<label>สีที่ไม่ชอบ / HATED COLOR</label>
+
+<input id="hatedColor">
+
+</div>
+
+
+<!-- HOBBY -->
+
+<div class="full">
+
+<label>งานอดิเรก / HOBBIES</label>
+
+<input id="hobbies">
+
+</div>
+
+
+<!-- DESCRIPTION -->
+
+<div class="full">
+
+<label>
+    รายละเอียดเด็กนักเรียน / STUDENT DESCRIPTION
+</label>
+
+<textarea
+    id="description"
+    placeholder="นิสัย บุคลิก ความสัมพันธ์กับเพื่อน..."
+></textarea>
+
+</div>
+
+
+<!-- CRIME -->
+
+<div class="full">
+
+<label>
+    สิ่งที่ทำผิด / DISCIPLINARY RECORD
+</label>
+
+<textarea
+    id="crime"
+    placeholder="ความผิด ความลับ หรือเหตุการณ์แปลก ๆ..."
+></textarea>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- CLUB -->
+
+<section class="panel" style="margin-top:18px">
+
+<div class="title">
+    CLUB / RPG CLASS
+</div>
+
+<div class="club-box">
+
+<label>
+    ชมรม / CLUB
+</label>
+
+<select id="club">
+
+<option value="none">
+    — ไม่เข้าชมรม —
+</option>
+
+<option value="athletics">
+    กรีฑา / Athletics
+</option>
+
+<option value="basketball">
+    บาสเกตบอล / Basketball
+</option>
+
+<option value="swimming">
+    ว่ายน้ำ / Swimming
+</option>
+
+<option value="kendo">
+    เคนโด้ / Kendo
+</option>
+
+<option value="archery">
+    ยิงธนู / Archery
+</option>
+
+<option value="music">
+    ดนตรี / Music
+</option>
+
+<option value="art">
+    ศิลปะ / Art
+</option>
+
+<option value="literature">
+    วรรณกรรม / Literature
+</option>
+
+<option value="occult">
+    เรื่องลึกลับ / Occult
+</option>
+
+<option value="science">
+    วิทยาศาสตร์ / Science
+</option>
+
+<option value="newspaper">
+    หนังสือพิมพ์ / Newspaper
+</option>
+
+<option value="drama">
+    การแสดง / Drama
+</option>
+
+<option value="computer">
+    คอมพิวเตอร์ / Computer
+</option>
+
+</select>
+
+<div
+    class="club-info"
+    id="clubInfo">
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<!-- ======================================================
+     STATUS
+====================================================== -->
+
+<aside>
+
+<section class="panel">
+
+<div class="title">
+    CHARACTER STATUS
+</div>
+
+<div class="stats">
+
+<div class="stat">
+    <div class="stat-name">
+        พละกำลัง<br>STR
+    </div>
+    <div class="bar">
+        <div class="fill" id="bar-str"></div>
+    </div>
+    <div class="value" id="str">0</div>
+</div>
+
+
+<div class="stat">
+    <div class="stat-name">
+        ความเร็ว<br>SPD
+    </div>
+    <div class="bar">
+        <div class="fill" id="bar-spd"></div>
+    </div>
+    <div class="value" id="spd">0</div>
+</div>
+
+
+<div class="stat">
+    <div class="stat-name">
+        สุขภาพจิต<br>MENT
+    </div>
+    <div class="bar">
+        <div class="fill" id="bar-mental"></div>
+    </div>
+    <div class="value" id="mental">0</div>
+</div>
+
+
+<div class="stat">
+    <div class="stat-name">
+        ไหวพริบ<br>INT
+    </div>
+    <div class="bar">
+        <div class="fill" id="bar-int"></div>
+    </div>
+    <div class="value" id="int">0</div>
+</div>
+
+
+<div class="stat">
+    <div class="stat-name">
+        ความเชื่อใจ<br>TRUST
+    </div>
+    <div class="bar">
+        <div class="fill" id="bar-trust"></div>
+    </div>
+    <div class="value" id="trust">0</div>
+</div>
+
+</div>
+
+<div style="
+    font-size:8px;
+    color:#555;
+    margin-top:15px;
+">
+    ค่าสถานะเริ่มต้น = 0<br>
+    โบนัสมาจากชมรมที่เลือก
+</div>
+
+</section>
+
+
+<section class="panel" style="margin-top:18px">
+
+<div class="title">
+    DATABASE
+</div>
+
+<div style="font-size:9px;line-height:1.8">
+
+STATUS:
+<strong style="color:#176717">
+    OFFLINE / LOCAL
+</strong>
+
+<br>
+
+RECORD:
+<strong id="record">
+    HS-000000
+</strong>
+
+<hr>
+
+ไม่มีการส่งข้อมูลไปยัง Server
+
+<br>
+
+ข้อมูลจะอยู่ใน Browser
+ของผู้เล่นเท่านั้น
+
+</div>
+
+</section>
+
+</aside>
+
+</div>
+
+
+<!-- ======================================================
+     MAIN BUTTONS
+====================================================== -->
+
+<section class="panel print-hide"
+         style="margin-top:18px">
+
+<div class="actions">
+
+<button
+    class="primary"
+    onclick="createCard()">
+    ✦ CREATE STUDENT CARD
+</button>
+
+<button onclick="saveData()">
+    SAVE
+</button>
+
+<button onclick="loadData()">
+    LOAD
+</button>
+
+<button onclick="resetForm()">
+    CLEAR
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     CARD
+====================================================== -->
+
+<section id="cardSection">
+
+<section class="panel print-hide">
+
+<div class="title">
+    STUDENT CARD CREATED
+</div>
+
+<div class="actions">
+
+<button
+    class="primary"
+    onclick="downloadPNG()">
+    📸 DOWNLOAD CARD AS PNG
+</button>
+
+<button
+    class="share"
+    onclick="shareCard()">
+    📤 SHARE CARD
+</button>
+
+<button onclick="window.print()">
+    📄 SAVE AS PDF
+</button>
+
+<button onclick="downloadJSON()">
+    DATA BACKUP
+</button>
+
+</div>
+
+<div style="
+    margin-top:10px;
+    font-size:8px;
+    color:#555;
+">
+    แนะนำให้ใช้ DOWNLOAD PNG
+    แล้วส่งรูปนี้กลับมาให้ GM ทาง LINE / Discord
+</div>
+
+</section>
+
+
+<!-- ACTUAL CARD -->
+
+<div
+    id="studentCard"
+    class="card"
+    style="margin-top:18px"
+>
+
+<div class="card-inner">
+
+<div class="card-head">
+
+<div>
+
+<div style="
+    font-size:8px;
+    color:#555;
+">
+    花咲高等学校 /
+    STUDENT IDENTIFICATION
+</div>
+
+<div class="card-school">
+    HANASAKI HIGH SCHOOL
+</div>
+
+</div>
+
+<div
+    class="card-number"
+    id="cardNumber">
+    HS-000000
+</div>
+
+</div>
+
+
+<div class="card-body">
+
+<div class="card-photo">
+
+<img id="cardPhoto">
+
+</div>
+
+
+<div class="card-info">
+
+<div class="info">
+
+<div class="info-label">
+    FULL NAME
+</div>
+
+<div
+    class="info-value"
+    id="cardName">
+    ---
+</div>
+
+</div>
+
+
+<div class="info">
+
+<div class="info-label">
+    PLAYER
+</div>
+
+<div
+    class="info-value"
+    id="cardPlayer">
+    ---
+</div>
+
+</div>
+
+
+<div class="info">
+
+<div class="info-label">
+    YEAR
+</div>
+
+<div
+    class="info-value"
+    id="cardYear">
+    ---
+</div>
+
+</div>
+
+
+<div class="info">
+
+<div class="info-label">
+    CLASS
+</div>
+
+<div
+    class="info-value"
+    id="cardClass">
+    ---
+</div>
+
+</div>
+
+
+<div class="info">
+
+<div class="info-label">
+    CLUB
+</div>
+
+<div
+    class="info-value"
+    id="cardClub">
+    ---
+</div>
+
+</div>
+
+
+<div class="info">
+
+<div class="info-label">
+    LIKES
+</div>
+
+<div
+    class="info-value"
+    id="cardLikes">
+    ---
+</div>
+
+</div>
+
+
+<div class="info">
+
+<div class="info-label">
+    DISLIKES
+</div>
+
+<div
+    class="info-value"
+    id="cardDislikes">
+    ---
+</div>
+
+</div>
+
+
+<div class="info">
+
+<div class="info-label">
+    HOBBIES
+</div>
+
+<div
+    class="info-value"
+    id="cardHobbies">
+    ---
+</div>
+
+</div>
+
+
+<div class="info">
+
+<div class="info-label">
+    FAVORITE COLOR
+</div>
+
+<div
+    class="info-value"
+    id="cardFavoriteColor">
+    ---
+</div>
+
+</div>
+
+
+<div class="info">
+
+<div class="info-label">
+    HATED COLOR
+</div>
+
+<div
+    class="info-value"
+    id="cardHatedColor">
+    ---
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card-stats">
+
+<div class="card-stat">
+    <small>STR</small>
+    <strong id="cardSTR">0</strong>
+</div>
+
+<div class="card-stat">
+    <small>SPD</small>
+    <strong id="cardSPD">0</strong>
+</div>
+
+<div class="card-stat">
+    <small>MENT</small>
+    <strong id="cardMENT">0</strong>
+</div>
+
+<div class="card-stat">
+    <small>INT</small>
+    <strong id="cardINT">0</strong>
+</div>
+
+<div class="card-stat">
+    <small>TRUST</small>
+    <strong id="cardTRUST">0</strong>
+</div>
+
+</div>
+
+
+<div class="secret">
+
+<strong>
+    DISCIPLINARY RECORD / CONFIDENTIAL
+</strong>
+
+<br>
+
+<span id="cardCrime">
+    NO RECORD
+</span>
+
+</div>
+
+
+<div class="secret"
+     style="border-color:#555;color:#333">
+
+<strong>
+    STUDENT DESCRIPTION
+</strong>
+
+<br>
+
+<span id="cardDescription">
+    ---
+</span>
+
+</div>
+
+
+<div class="card-footer">
+
+<span>
+    HANASAKI HIGH SCHOOL © 1998
+</span>
+
+<span>
+    AUTHORIZED PERSONNEL ONLY
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<footer style="
+    text-align:center;
+    color:#666;
+    font-size:8px;
+    line-height:1.8;
+    margin-top:18px;
+">
+    HANASAKI HIGH SCHOOL STUDENT DATABASE<br>
+    SYSTEM VERSION 1.1 // LAST UPDATED: 1998.10.31<br>
+    DO NOT ACCESS RECORDS AFTER 00:00
+</footer>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   CLUB SYSTEM
+========================================================= */
+
+const clubs = {
+
+none:{
+    name:"ไม่เข้าชมรม",
+    bonus:{
+        str:0,spd:0,mental:0,int:0,trust:0
+    },
+    description:"ไม่มีโบนัสค่าสถานะ"
+},
+
+athletics:{
+    name:"กรีฑา / Athletics",
+    bonus:{
+        str:2,spd:3,mental:0,int:0,trust:1
+    },
+    description:"ฝึกความแข็งแรงและความเร็ว"
+},
+
+basketball:{
+    name:"บาสเกตบอล / Basketball",
+    bonus:{
+        str:2,spd:2,mental:1,int:0,trust:2
+    },
+    description:"นักกีฬาที่มี teamwork สูง"
+},
+
+swimming:{
+    name:"ว่ายน้ำ / Swimming",
+    bonus:{
+        str:2,spd:2,mental:2,int:0,trust:0
+    },
+    description:"ร่างกายแข็งแรงและมีสมาธิ"
+},
+
+kendo:{
+    name:"เคนโด้ / Kendo",
+    bonus:{
+        str:3,spd:1,mental:3,int:0,trust:0
+    },
+    description:"วินัย ความอดทน และจิตใจแข็งแกร่ง"
+},
+
+archery:{
+    name:"ยิงธนู / Archery",
+    bonus:{
+        str:1,spd:1,mental:3,int:2,trust:0
+    },
+    description:"สมาธิและการควบคุมอารมณ์"
+},
+
+music:{
+    name:"ดนตรี / Music",
+    bonus:{
+        str:0,spd:0,mental:2,int:2,trust:2
+    },
+    description:"เสียงเพลงและความสัมพันธ์"
+},
+
+art:{
+    name:"ศิลปะ / Art",
+    bonus:{
+        str:0,spd:0,mental:2,int:3,trust:1
+    },
+    description:"สังเกตสิ่งที่คนอื่นมองข้าม"
+},
+
+literature:{
+    name:"วรรณกรรม / Literature",
+    bonus:{
+        str:0,spd:0,mental:1,int:4,trust:1
+    },
+    description:"อ่าน วิเคราะห์ และค้นหาความหมาย"
+},
+
+occult:{
+    name:"เรื่องลึกลับ / Occult",
+    bonus:{
+        str:0,spd:0,mental:4,int:3,trust:0
+    },
+    description:"ศึกษาวิญญาณ ตำนาน และเรื่องต้องห้าม"
+},
+
+science:{
+    name:"วิทยาศาสตร์ / Science",
+    bonus:{
+        str:0,spd:0,mental:1,int:5,trust:0
+    },
+    description:"การทดลอง เหตุผล และสิ่งที่อธิบายไม่ได้"
+},
+
+newspaper:{
+    name:"หนังสือพิมพ์ / Newspaper",
+    bonus:{
+        str:0,spd:1,mental:1,int:3,trust:3
+    },
+    description:"ข่าวลือ ความลับ และข้อมูล"
+},
+
+drama:{
+    name:"การแสดง / Drama",
+    bonus:{
+        str:0,spd:1,mental:2,int:1,trust:4
+    },
+    description:"การแสดงและการอ่านความรู้สึกคน"
+},
+
+computer:{
+    name:"คอมพิวเตอร์ / Computer",
+    bonus:{
+        str:0,spd:0,mental:1,int:5,trust:1
+    },
+    description:"คอมพิวเตอร์ ระบบ และข้อมูลลับ"
+}
+
+};
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+let photoData = "";
+
+let recordNumber =
+    "HS-" +
+    Math.floor(
+        100000 +
+        Math.random()*900000
+    );
+
+
+/* =========================================================
+   CLUB
+========================================================= */
+
+const clubSelect =
+    document.getElementById("club");
+
+clubSelect.addEventListener(
+    "change",
+    updateStats
+);
+
+
+function updateStats(){
+
+    const club =
+        clubs[clubSelect.value];
+
+    const b =
+        club.bonus;
+
+    const stats = [
+        ["str",b.str],
+        ["spd",b.spd],
+        ["mental",b.mental],
+        ["int",b.int],
+        ["trust",b.trust]
+    ];
+
+    stats.forEach(
+        ([name,value])=>{
+
+            document.getElementById(name)
+                .textContent=value;
+
+            document.getElementById(
+                "bar-"+name
+            ).style.width =
+                Math.min(value*12,100)+"%";
+
+        }
+    );
+
+    let bonusText =
+        Object.entries(b)
+        .filter(x=>x[1]>0)
+        .map(
+            x=>x[0].toUpperCase()+
+               " +"+x[1]
+        )
+        .join(" / ");
+
+    document.getElementById(
+        "clubInfo"
+    ).textContent =
+        club.description +
+        (bonusText
+            ? " | BONUS: "+bonusText
+            : "");
+
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+document.getElementById(
+    "photoInput"
+).addEventListener(
+    "change",
+    function(e){
+
+        const file =
+            e.target.files[0];
+
+        if(!file)return;
+
+        const reader =
+            new FileReader();
+
+        reader.onload =
+            function(event){
+
+                photoData =
+                    event.target.result;
+
+                const preview =
+                    document.getElementById(
+                        "photoPreview"
+                    );
+
+                preview.src =
+                    photoData;
+
+                preview.style.display =
+                    "block";
+
+                document.getElementById(
+                    "photoText"
+                ).style.display =
+                    "none";
+            };
+
+        reader.readAsDataURL(file);
+
+    }
+);
+
+
+/* =========================================================
+   DATA
+========================================================= */
+
+function getData(){
+
+    const club =
+        clubs[clubSelect.value];
+
+    return{
+
+        recordNumber,
+
+        fullName:
+            document.getElementById(
+                "fullName"
+            ).value,
+
+        playerName:
+            document.getElementById(
+                "playerName"
+            ).value,
+
+        year:
+            document.getElementById(
+                "year"
+            ).value,
+
+        classRoom:
+            document.getElementById(
+                "classRoom"
+            ).value,
+
+        likes:
+            document.getElementById(
+                "likes"
+            ).value,
+
+        dislikes:
+            document.getElementById(
+                "dislikes"
+            ).value,
+
+        favoriteColor:
+            document.getElementById(
+                "favoriteColor"
+            ).value,
+
+        hatedColor:
+            document.getElementById(
+                "hatedColor"
+            ).value,
+
+        hobbies:
+            document.getElementById(
+                "hobbies"
+            ).value,
+
+        description:
+            document.getElementById(
+                "description"
+            ).value,
+
+        crime:
+            document.getElementById(
+                "crime"
+            ).value,
+
+        club:
+            clubSelect.value,
+
+        clubName:
+            club.name,
+
+        stats:
+            club.bonus,
+
+        photo:
+            photoData
+
+    };
+
+}
+
+
+/* =========================================================
+   CREATE CARD
+========================================================= */
+
+function createCard(){
+
+    const data =
+        getData();
+
+    if(!data.fullName.trim()){
+
+        alert(
+            "กรุณาใส่ชื่อ-สกุลก่อนสร้างบัตร"
+        );
+
+        return;
+
+    }
+
+    document.getElementById(
+        "cardSection"
+    ).style.display =
+        "block";
+
+    document.getElementById(
+        "record"
+    ).textContent =
+        data.recordNumber;
+
+    document.getElementById(
+        "cardNumber"
+    ).textContent =
+        data.recordNumber;
+
+    setText(
+        "cardName",
+        data.fullName
+    );
+
+    setText(
+        "cardPlayer",
+        data.playerName
+    );
+
+    setText(
+        "cardYear",
+        "YEAR "+data.year
+    );
+
+    setText(
+        "cardClass",
+        "CLASS "+data.classRoom
+    );
+
+    setText(
+        "cardClub",
+        data.clubName
+    );
+
+    setText(
+        "cardLikes",
+        data.likes
+    );
+
+    setText(
+        "cardDislikes",
+        data.dislikes
+    );
+
+    setText(
+        "cardHobbies",
+        data.hobbies
+    );
+
+    setText(
+        "cardFavoriteColor",
+        data.favoriteColor
+    );
+
+    setText(
+        "cardHatedColor",
+        data.hatedColor
+    );
+
+    setText(
+        "cardCrime",
+        data.crime || "NO RECORD"
+    );
+
+    setText(
+        "cardDescription",
+        data.description
+    );
+
+    document.getElementById(
+        "cardSTR"
+    ).textContent =
+        data.stats.str;
+
+    document.getElementById(
+        "cardSPD"
+    ).textContent =
+        data.stats.spd;
+
+    document.getElementById(
+        "cardMENT"
+    ).textContent =
+        data.stats.mental;
+
+    document.getElementById(
+        "cardINT"
+    ).textContent =
+        data.stats.int;
+
+    document.getElementById(
+        "cardTRUST"
+    ).textContent =
+        data.stats.trust;
+
+    const image =
+        document.getElementById(
+            "cardPhoto"
+        );
+
+    if(data.photo){
+
+        image.src =
+            data.photo;
+
+    }else{
+
+        image.removeAttribute(
+            "src"
+        );
+
+    }
+
+    document.getElementById(
+        "cardSection"
+    ).scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+function setText(id,value){
+
+    document.getElementById(id)
+        .textContent =
+        value || "---";
+
+}
+
+
+/* =========================================================
+   SAVE / LOAD
+========================================================= */
+
+function saveData(){
+
+    localStorage.setItem(
+        "HANASAKI_STUDENT",
+        JSON.stringify(
+            getData()
+        )
+    );
+
+    alert(
+        "บันทึกข้อมูลไว้ในเครื่องแล้ว"
+    );
+
+}
+
+
+function loadData(){
+
+    const raw =
+        localStorage.getItem(
+            "HANASAKI_STUDENT"
+        );
+
+    if(!raw){
+
+        alert(
+            "ยังไม่มีข้อมูลที่บันทึกไว้"
+        );
+
+        return;
+
+    }
+
+    const data =
+        JSON.parse(raw);
+
+    recordNumber =
+        data.recordNumber ||
+        recordNumber;
+
+    setInput(
+        "fullName",
+        data.fullName
+    );
+
+    setInput(
+        "playerName",
+        data.playerName
+    );
+
+    setInput(
+        "likes",
+        data.likes
+    );
+
+    setInput(
+        "dislikes",
+        data.dislikes
+    );
+
+    setInput(
+        "favoriteColor",
+        data.favoriteColor
+    );
+
+    setInput(
+        "hatedColor",
+        data.hatedColor
+    );
+
+    setInput(
+        "hobbies",
+        data.hobbies
+    );
+
+    setInput(
+        "description",
+        data.description
+    );
+
+    setInput(
+        "crime",
+        data.crime
+    );
+
+    document.getElementById(
+        "year"
+    ).value =
+        data.year || "1";
+
+    document.getElementById(
+        "classRoom"
+    ).value =
+        data.classRoom || "01";
+
+    document.getElementById(
+        "club"
+    ).value =
+        data.club || "none";
+
+    photoData =
+        data.photo || "";
+
+    if(photoData){
+
+        const preview =
+            document.getElementById(
+                "photoPreview"
+            );
+
+        preview.src =
+            photoData;
+
+        preview.style.display =
+            "block";
+
+        document.getElementById(
+            "photoText"
+        ).style.display =
+            "none";
+
+    }
+
+    updateStats();
+
+    alert(
+        "โหลดข้อมูลเรียบร้อยแล้ว"
+    );
+
+}
+
+
+function setInput(id,value){
+
+    document.getElementById(id)
+        .value =
+        value || "";
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetForm(){
+
+    if(!confirm(
+        "ล้างข้อมูลตัวละครทั้งหมด?"
+    ))return;
+
+    document.querySelectorAll(
+        "input,textarea"
+    ).forEach(
+        el=>{
+            if(el.type!=="file")
+                el.value="";
+        }
+    );
+
+    document.getElementById(
+        "year"
+    ).value="1";
+
+    document.getElementById(
+        "classRoom"
+    ).value="01";
+
+    document.getElementById(
+        "club"
+    ).value="none";
+
+    photoData="";
+
+    document.getElementById(
+        "photoPreview"
+    ).style.display="none";
+
+    document.getElementById(
+        "photoText"
+    ).style.display="block";
+
+    recordNumber =
+        "HS-" +
+        Math.floor(
+            100000+
+            Math.random()*900000
+        );
+
+    document.getElementById(
+        "record"
+    ).textContent =
+        recordNumber;
+
+    document.getElementById(
+        "cardSection"
+    ).style.display =
+        "none";
+
+    updateStats();
+
+}
+
+
+/* =========================================================
+   DOWNLOAD PNG
+========================================================= */
+
+async function downloadPNG(){
+
+    const card =
+        document.getElementById(
+            "studentCard"
+        );
+
+    if(typeof html2canvas === "undefined"){
+
+        alert(
+            "ระบบสร้างรูปยังโหลดไม่เสร็จ กรุณารอสักครู่แล้วลองใหม่"
+        );
+
+        return;
+
+    }
+
+    try{
+
+        const canvas =
+            await html2canvas(
+                card,
+                {
+                    scale:2,
+                    useCORS:true,
+                    backgroundColor:"#cec6ae"
+                }
+            );
+
+        const link =
+            document.createElement("a");
+
+        const data =
+            getData();
+
+        const safeName =
+            (data.fullName || "STUDENT")
+            .replace(
+                /[^\wก-๙\- ]/g,
+                ""
+            )
+            .replace(
+                /\s+/g,
+                "_"
+            );
+
+        link.download =
+            "HANASAKI_" +
+            safeName +
+            "_CARD.png";
+
+        link.href =
+            canvas.toDataURL(
+                "image/png"
+            );
+
+        link.click();
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "ไม่สามารถสร้างรูปได้ กรุณาลองใหม่อีกครั้ง"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SHARE
+========================================================= */
+
+async function shareCard(){
+
+    const data =
+        getData();
+
+    if(!navigator.share){
+
+        alert(
+            "เบราว์เซอร์นี้ยังไม่รองรับการแชร์โดยตรง\n\n" +
+            "ให้ใช้ DOWNLOAD CARD AS PNG แล้วส่งรูปแทนได้เลย"
+        );
+
+        return;
+
+    }
+
+    try{
+
+        const card =
+            document.getElementById(
+                "studentCard"
+            );
+
+        const canvas =
+            await html2canvas(
+                card,
+                {
+                    scale:2,
+                    useCORS:true,
+                    backgroundColor:"#cec6ae"
+                }
+            );
+
+        canvas.toBlob(
+            async blob=>{
+
+                const file =
+                    new File(
+                        [blob],
+                        "HANASAKI_CARD.png",
+                        {
+                            type:"image/png"
+                        }
+                    );
+
+                if(
+                    navigator.canShare &&
+                    navigator.canShare({
+                        files:[file]
+                    })
+                ){
+
+                    await navigator.share({
+                        title:
+                            "HANASAKI HIGH SCHOOL",
+                        text:
+                            "Student Card - "+
+                            data.fullName,
+                        files:[file]
+                    });
+
+                }else{
+
+                    await navigator.share({
+                        title:
+                            "HANASAKI HIGH SCHOOL",
+                        text:
+                            "Student Card - "+
+                            data.fullName
+                    });
+
+                }
+
+            },
+            "image/png"
+        );
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+/* =========================================================
+   DOWNLOAD JSON
+========================================================= */
+
+function downloadJSON(){
+
+    const data =
+        getData();
+
+    const blob =
+        new Blob(
+            [
+                JSON.stringify(
+                    data,
+                    null,
+                    2
+                )
+            ],
+            {
+                type:
+                    "application/json"
+            }
+        );
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const link =
+        document.createElement("a");
+
+    link.href=url;
+
+    link.download =
+        "HANASAKI_STUDENT.json";
+
+    link.click();
+
+    URL.revokeObjectURL(url);
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+document.getElementById(
+    "record"
+).textContent =
+    recordNumber;
+
+updateStats();
+
+</script>
+
+</body>
+</html>
