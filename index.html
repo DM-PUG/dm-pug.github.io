@@ -1051,12 +1051,12 @@ for(let i=1;i<=13;i++){
 
 <div class="stat">
     <div class="stat-name">
-        สุขภาพจิต<br>MENT
+        สุขภาพจิต<br>SANITY
     </div>
     <div class="bar">
-        <div class="fill" id="bar-mental"></div>
+        <div class="fill" id="bar-sanity"></div>
     </div>
-    <div class="value" id="mental">0</div>
+    <div class="value" id="sanity">0</div>
 </div>
 
 
@@ -1428,8 +1428,8 @@ RECORD:
 </div>
 
 <div class="card-stat">
-    <small>MENT</small>
-    <strong id="cardMENT">0</strong>
+    <small>SANITY</small>
+    <strong id="cardSANITY">0</strong>
 </div>
 
 <div class="card-stat">
@@ -1521,7 +1521,7 @@ const clubs = {
 none:{
     name:"ไม่เข้าชมรม",
     bonus:{
-        str:0,spd:0,mental:0,int:0,trust:0
+        str:0,spd:0,sanity:0,int:0,trust:0
     },
     description:"ไม่มีโบนัสค่าสถานะ"
 },
@@ -1529,73 +1529,73 @@ none:{
 athletics:{
     name:"กรีฑา / Athletics",
     bonus:{
-        str:2,spd:3,mental:0,int:0,trust:1
+        str:0,spd:3,sanity:0,int:0,trust:0
     },
-    description:"ฝึกความแข็งแรงและความเร็ว"
+    description:"ฝึกความแข็งแรงด้านความเร็วระดับสูงสุด! จะวิ่งเร็วไปไหนเนี้ยย!"
 },
 
 basketball:{
     name:"บาสเกตบอล / Basketball",
     bonus:{
-        str:2,spd:2,mental:1,int:0,trust:2
+        str:1,spd:2,sanity:0,int:0,trust:0
     },
-    description:"นักกีฬาที่มี teamwork สูง"
+    description:"ฉันมันนักบาสอัฉริยะ"
 },
 
 swimming:{
     name:"ว่ายน้ำ / Swimming",
     bonus:{
-        str:2,spd:2,mental:2,int:0,trust:0
+        str:0,spd:2,sanity:1,int:0,trust:0
     },
-    description:"ร่างกายแข็งแรงและมีสมาธิ"
+    description:"อยากจะอยู่ กับผู้คนบนดิน"
 },
 
 kendo:{
     name:"เคนโด้ / Kendo",
     bonus:{
-        str:3,spd:1,mental:3,int:0,trust:0
+        str:0,spd:1,sanity:0,int:2,trust:0
     },
-    description:"วินัย ความอดทน และจิตใจแข็งแกร่ง"
+    description:"ฝึกตนเป็นผู้พิทักแหวนวารี"
 },
 
 archery:{
-    name:"ยิงธนู / Archery",
+    name:"ยิงธนู,คิวโด / Archery",
     bonus:{
-        str:1,spd:1,mental:3,int:2,trust:0
+        str:0,spd:0,sanity:2,int:1,trust:0
     },
-    description:"สมาธิและการควบคุมอารมณ์"
+    description:"Feel The Sun!"
 },
 
 music:{
     name:"ดนตรี / Music",
     bonus:{
-        str:0,spd:0,mental:2,int:2,trust:2
+        str:0,spd:0,sanity:3,int:0,trust:0
     },
-    description:"เสียงเพลงและความสัมพันธ์"
+    description:"ดนตรีนั้นคือชีวิต จังหวะคอยลิขิตให้ชีวิตกล้าวไป"
 },
 
 art:{
     name:"ศิลปะ / Art",
     bonus:{
-        str:0,spd:0,mental:2,int:3,trust:1
+        str:0,spd:0,sanity:3,int:0,trust:0
     },
-    description:"สังเกตสิ่งที่คนอื่นมองข้าม"
+    description:"มันคือศิลปะ!"
 },
 
 literature:{
     name:"วรรณกรรม / Literature",
     bonus:{
-        str:0,spd:0,mental:1,int:4,trust:1
+        str:0,spd:0,sanity:0,int:3,trust:0
     },
-    description:"อ่าน วิเคราะห์ และค้นหาความหมาย"
+    description:"เรื่องไหนที่ว่าแน่ ก็ยังแพ้หนูมาลี"
 },
 
 occult:{
     name:"เรื่องลึกลับ / Occult",
     bonus:{
-        str:0,spd:0,mental:4,int:3,trust:0
+        str:0,spd:0,sanity:2,int:2,trust:0
     },
-    description:"ศึกษาวิญญาณ ตำนาน และเรื่องต้องห้าม"
+    description:"พี่แจ๊กครับ"
 },
 
 science:{
