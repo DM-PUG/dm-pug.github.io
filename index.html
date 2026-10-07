@@ -904,7 +904,7 @@ for(let i=1;i<=13;i++){
 </option>
 
 <option value="football">
-    ฟุทบอล / Football
+    ฟุตบอล / Football
 </option>
 
 <option value="baseball">
@@ -1791,7 +1791,7 @@ function updateStats(){
     const stats = [
         ["str",b.str],
         ["spd",b.spd],
-        ["mental",b.mental],
+        ["sanity",b.sanity],
         ["int",b.int],
         ["trust",b.trust]
     ];
@@ -2067,9 +2067,9 @@ function createCard(){
         data.stats.spd;
 
     document.getElementById(
-        "cardMENT"
+        "cardSANITY"
     ).textContent =
-        data.stats.mental;
+        data.stats.sanity;
 
     document.getElementById(
         "cardINT"
